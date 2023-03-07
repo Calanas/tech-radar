@@ -8,11 +8,15 @@ import { Technology } from './technologies';
 })
 // Use the technology service to get data from the backend by calling spring boot APIs
 export class TechnologyService {
-  private baseUrl = 'http://localhost:8080/api/technologies';
+  private baseUrl = 'http://localhost:8080/api/v1/technologies';
 
   constructor(private httpClient: HttpClient) {}
 
   getTechnologies(): Observable<Technology[]> {
     return this.httpClient.get<Technology[]>(`${this.baseUrl}`);
+  }
+
+  getTechnologyForId(id: number): Observable<Technology> {
+    return this.httpClient.get<Technology>(`${this.baseUrl}/id/${id}`);
   }
 }

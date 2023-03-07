@@ -19,4 +19,10 @@ export class TechnologyComponent implements OnInit {
         this.technologies = techs;
       });
   }
+
+  getTechnologyInfo(id: number): void {
+    this.technologyService
+      .getTechnologyForId(id)
+      .subscribe((tech) => console.log(tech));
+  }
 }
