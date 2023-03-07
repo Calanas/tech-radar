@@ -26,8 +26,17 @@ public class TechnologyService {
         return new ResponseEntity<>(technology, technology.id != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<List<Technology>> getTechnologies() {
-        return httpResponseOf(technologyRepository.findAll());
+    public List<Technology> getTechnologies() {
+        return technologyRepository.findAll();
+    }
+
+    public List<Technology> getTechnologies(Optional<String> label, Optional<Integer> quadrant, Optional<Integer> moved) {
+        List<Technology> allTechnologies = getTechnologies();
+        return allTechnologies.stream().filter(technology ->
+            technology.label.equals(label.orElse(technology.label))
+                    && technology.quadrant == quadrant.orElse(technology.quadrant)
+                    && technology.moved == moved.orElse(technology.moved)
+        ).toList();
     }
 
     public ResponseEntity<Technology> getTechnologyById(Long id) {
@@ -56,12 +65,17 @@ public class TechnologyService {
                     technology.label= entry.label;
                     technology.ring = entry.ring;
                     technology.moved = entry.moved;
-                    technology.quadrant=entry.quadrant;
+                    technology.quadrant = entry.quadrant;
                     return new ResponseEntity<>(technologyRepository.save(technology), HttpStatus.OK);
                 })
                 .orElseGet(() -> {
                     entry.id = id;
                     return new ResponseEntity<>(technologyRepository.save(entry), HttpStatus.CREATED);
                 });
+    }
+
+    public ResponseEntity<Long> deleteTechnology(Long id) {
+        technologyRepository.deleteById(id);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }

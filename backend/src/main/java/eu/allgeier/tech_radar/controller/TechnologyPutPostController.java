@@ -15,8 +15,9 @@ public class TechnologyPutPostController {
         this.technologyService = technologyService;
     }
 
-    @PutMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Technology> updateTechnology(@PathVariable(name = "id") Long id, @RequestBody Technology newTechnology) {
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Technology> updateTechnology(@PathVariable(name = "id") Long id,
+                                                       @RequestBody Technology newTechnology) {
         return technologyService.updateTechnology(id, newTechnology);
     }
 

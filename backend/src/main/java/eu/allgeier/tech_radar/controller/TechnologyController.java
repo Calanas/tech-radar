@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "${allowed.crossorigin.url}")
@@ -18,33 +19,16 @@ public class TechnologyController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Technology>> getTechnologies() {
-        return technologyService.getTechnologies();
+    public List<Technology> getTechnologies
+            (@RequestParam(name = "label") Optional<String> label,
+             @RequestParam(name = "quadrant") Optional<Integer> quadrant,
+             @RequestParam(name = "moved") Optional<Integer> moved) {
+        List<Technology> technologies = technologyService.getTechnologies(label, quadrant, moved);
+        return technologies;
     }
 
-
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Technology> getTechnologyById(@PathVariable(value = "id") Long id) {
         return technologyService.getTechnologyById(id);
-    }
-
-    @GetMapping("/label/{label}")
-    public ResponseEntity<Technology> getTechnologyByLabel(@PathVariable(value = "label") String label) {
-        return technologyService.getTechnologyByLabel(label);
-    }
-
-    @GetMapping("/moved/{moved}")
-    public ResponseEntity<List<Technology>> getTechnologiesByMovedStatus(@PathVariable(value = "moved") int moved) {
-        return technologyService.getTechnologiesByMovedStatus(moved);
-    }
-
-    @GetMapping("/quadrant/{quadrant}")
-    public ResponseEntity<List<Technology>> getTechnologiesByQuadrant(@PathVariable(value = "quadrant") int quadrant) {
-        return technologyService.getTechnologiesByQuadrant(quadrant);
-    }
-
-    @GetMapping("/ring/{ring}")
-    public ResponseEntity<List<Technology>> getTechnologiesByRing(@PathVariable(value = "ring") int ring) {
-        return technologyService.getTechnologiesByRing(ring);
     }
 }
