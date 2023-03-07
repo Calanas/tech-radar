@@ -13,35 +13,45 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 @RestController
-@RequestMapping(path="api/v1/technology")
+@RequestMapping(path = "api/v1/")
 public class TechnologyController {
 
-    private final TechnologyService technologyService;
+    // private final FirestoreTemplate firestoreTemplate;
+    // private final TechnologyRepository technologyRepository;
 
-    
     @Autowired
-    public TechnologyController(TechnologyService technologyService) {
-        this.technologyService = technologyService;
-    }
+    TechnologyService technologyService;
 
-    @GetMapping("/getTechnologies")
-    public Technology getTechnologies () throws InterruptedException, ExecutionException {
+    // @Autowired
+    // public TechnologyController(TechnologyService technologyService,
+    //         FirestoreTemplate firestoreTemplate, TechnologyRepository technologyRepository) {
+    //     this.firestoreTemplate = firestoreTemplate;
+    //     this.technologyService = technologyService;
+    //     this.technologyRepository = technologyRepository;
+    // }
+
+
+    @GetMapping("getTechnologies")
+    public Flux<Technology> getTechnologies() throws InterruptedException, ExecutionException {
         return technologyService.getTechnologies();
     }
 
-    @PostMapping("/createTechnology")
-    public String createTechnology(@RequestBody Technology technology ) throws InterruptedException, ExecutionException {
+    @PostMapping("saveTechnology")
+    public Mono<Technology> saveTechnology(@RequestBody Technology technology) throws InterruptedException, ExecutionException {
         return technologyService.saveTechnology(technology);
     }
 
-    @PutMapping("/updateTechnology")
-    public String updateTechnology(@RequestBody Technology technology) throws InterruptedException, ExecutionException {
-        return technologyService.updateTechnology(technology);
-    }
+    // @PutMapping("/updateTechnology")
+    // public String updateTechnology(@RequestBody Technology technology) throws InterruptedException, ExecutionException {
+    //     return technologyService.updateTechnology(technology);
+    // }
 
-    @DeleteMapping("/deleteTechnology")
-    public String deleteTechnology(@RequestParam String label) {
-        return technologyService.deleteTechnology(label);
-    }
+    // @DeleteMapping("/deleteTechnology")
+    // public String deleteTechnology(@RequestParam String label) {
+    //     return technologyService.deleteTechnology(label);
+    // }
 }
