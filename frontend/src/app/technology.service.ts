@@ -17,6 +17,6 @@ export class TechnologyService {
   }
 
   getTechnologyForId(id: number): Observable<Technology> {
-    return this.httpClient.get<Technology>(`${this.baseUrl}/id/${id}`);
+    return this.httpClient.get<Technology>(`${this.baseUrl}/${id}`);
   }
 }

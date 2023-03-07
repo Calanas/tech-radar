@@ -69,13 +69,16 @@ public class TechnologyService {
                     return new ResponseEntity<>(technologyRepository.save(technology), HttpStatus.OK);
                 })
                 .orElseGet(() -> {
-                    entry.id = id;
-                    return new ResponseEntity<>(technologyRepository.save(entry), HttpStatus.CREATED);
+                    return new ResponseEntity<>(new Technology(), HttpStatus.NOT_FOUND);
                 });
     }
 
     public ResponseEntity<Long> deleteTechnology(Long id) {
         technologyRepository.deleteById(id);
         return new ResponseEntity<>(id, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Technology> createTechnology(Technology entry) {
+        return new ResponseEntity<>(technologyRepository.save(entry), HttpStatus.CREATED);
     }
 }
