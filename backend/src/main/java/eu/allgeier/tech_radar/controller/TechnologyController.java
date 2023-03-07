@@ -2,6 +2,7 @@ package eu.allgeier.tech_radar.controller;
 
 import eu.allgeier.tech_radar.model.Technology;
 import eu.allgeier.tech_radar.service.TechnologyService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,5 +31,21 @@ public class TechnologyController {
     @GetMapping("/{id}")
     public ResponseEntity<Technology> getTechnologyById(@PathVariable(value = "id") Long id) {
         return technologyService.getTechnologyById(id);
+    }
+
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Technology> updateTechnology(@PathVariable(name = "id") Long id,
+                                                       @RequestBody Technology newTechnology) {
+        return technologyService.updateTechnology(id, newTechnology);
+    }
+
+    @PostMapping("")
+    public ResponseEntity<Technology> createTechnology(@RequestBody Technology newTechnology) {
+        return technologyService.createTechnology(newTechnology);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Long>  deleteTechnology(@PathVariable(name = "id") Long id) {
+        return technologyService.deleteTechnology(id);
     }
 }
