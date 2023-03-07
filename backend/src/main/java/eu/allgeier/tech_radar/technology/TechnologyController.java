@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +44,12 @@ public class TechnologyController {
     @PostMapping("saveTechnology")
     public Mono<Technology> saveTechnology(@RequestBody Technology technology) throws InterruptedException, ExecutionException {
         return technologyService.saveTechnology(technology);
+    }
+
+
+    @DeleteMapping("deleteTechnology/{id}")
+    public Mono<Technology> deleteTechnology(@PathVariable String id) {
+        return technologyService.deleteTechnology(id);
     }
 
     // @PutMapping("/updateTechnology")
