@@ -63,4 +63,49 @@ public class Technology {
         this.id = id;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((label == null) ? 0 : label.hashCode());
+        result = prime * result + ((ring == null) ? 0 : ring.hashCode());
+        result = prime * result + ((quadrant == null) ? 0 : quadrant.hashCode());
+        result = prime * result + ((moved == null) ? 0 : moved.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Technology other = (Technology) obj;
+        if (label == null) {
+            if (other.label != null)
+                return false;
+        } else if (!label.equals(other.label))
+            return false;
+        if (ring == null) {
+            if (other.ring != null)
+                return false;
+        } else if (!ring.equals(other.ring))
+            return false;
+        if (quadrant == null) {
+            if (other.quadrant != null)
+                return false;
+        } else if (!quadrant.equals(other.quadrant))
+            return false;
+        if (moved == null) {
+            if (other.moved != null)
+                return false;
+        } else if (!moved.equals(other.moved))
+            return false;
+        return true;
+    }
+
+    
+
 }
