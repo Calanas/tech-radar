@@ -57,9 +57,15 @@
         "@angular-eslint/template/no-distracting-elements": "error",
         "prettier/prettier": ["error", { "parser": "angular" }]
       }
+    },
+    {
+      "files": ["*.js"],
+      "extends": [
+        "plugin:prettier/recommended"
+      ],
+      "parserOptions": {
+        "ecmaVersion": "latest"
+      }
     }
-  ],
-  "parserOptions": {
-    "ecmaVersion": "latest"
-  }
+  ]
 }
