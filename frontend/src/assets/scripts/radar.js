@@ -349,8 +349,11 @@ function radar_visualization(config) {
           .on("mouseover", function (d) {
             showBubble(d.srcElement.__data__);
             highlightLegendItem(d.srcElement.__data__);
+          })
+          .on("mouseout", function (d) {
+            hideBubble(d.srcElement.__data__);
+            unhighlightLegendItem(d.srcElement.__data__);
           });
-        //.on("mouseout", function(d) { hideBubble(d.srcElement.__data__); unhighlightLegendItem(d.srcElement.__data__); });
       }
     }
   }
