@@ -1,8 +1,6 @@
-export class Technology {
-  constructor(
-    public quadrant: number,
-    public label: string,
-    public ring: number,
-    public moved: number
-  ) {}
+export interface Technology {
+  quadrant: number;
+  label: string;
+  ring: number;
+  moved: number;
 }

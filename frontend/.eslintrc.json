@@ -64,7 +64,7 @@
         "plugin:prettier/recommended"
       ],
       "parserOptions": {
-        "ecmaVersion": "latest"
+        "ecmaVersion": 2022
       }
     }
   ]

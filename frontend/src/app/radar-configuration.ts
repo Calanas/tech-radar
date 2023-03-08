@@ -1,4 +1,4 @@
-import { RadarVisualizationConfig } from 'src/types/RadarVisualizationConfig';
+import { RadarVisualizationConfig } from 'src/app/model/radar-visualization-config';
 
 export const radar_visualization_config: RadarVisualizationConfig = {
   svg_id: 'radar',

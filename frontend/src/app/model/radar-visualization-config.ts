@@ -1,4 +1,4 @@
-import { Technology } from '../app/model/technology';
+import { Technology } from './technology';
 
 export interface RadarVisualizationConfig {
   svg_id: string;
