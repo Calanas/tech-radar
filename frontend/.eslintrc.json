@@ -58,5 +58,8 @@
         "prettier/prettier": ["error", { "parser": "angular" }]
       }
     }
-  ]
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  }
 }
