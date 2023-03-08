@@ -140,13 +140,13 @@ function radar_visualization(config) {
   // position each entry randomly in its segment
   for (var i = 0; i < config.entries.length; i++) {
     var entry = config.entries[i];
-    entry.segment = segment(entry.quadrant, entry.ring);
+    entry.segment = segment(entry.quadrant.index, entry.ring.index);
     var point = entry.segment.random();
     entry.x = point.x;
     entry.y = point.y;
     entry.color =
       entry.active || config.print_layout
-        ? config.rings[entry.ring].color
+        ? config.rings[entry.ring.index].color
         : config.colors.inactive;
   }
 
@@ -160,7 +160,7 @@ function radar_visualization(config) {
   }
   for (var i = 0; i < config.entries.length; i++) {
     var entry = config.entries[i];
-    segmented[entry.quadrant][entry.ring].push(entry);
+    segmented[entry.quadrant.index][entry.ring.index].push(entry);
   }
 
   // assign unique sequential id to each entry
@@ -417,7 +417,7 @@ function radar_visualization(config) {
     .append("g")
     .attr("class", "blip")
     .attr("transform", function (d, i) {
-      return legend_transform(d.quadrant, d.ring, i);
+      return legend_transform(d.quadrant.index, d.ring.index, i);
     })
     .on("mouseover", function (d) {
       showBubble(d.srcElement.__data__);

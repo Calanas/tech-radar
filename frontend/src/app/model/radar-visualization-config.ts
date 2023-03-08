@@ -1,4 +1,6 @@
 import { Technology } from './technology';
+import { Quadrant } from './quadrant';
+import { Ring } from './ring';
 
 export interface RadarVisualizationConfig {
   svg_id: string;
@@ -10,13 +12,8 @@ export interface RadarVisualizationConfig {
     inactive: string;
   };
   title: string;
-  quadrants: {
-    name: string;
-  }[];
-  rings: {
-    name: string;
-    color: string;
-  }[];
+  quadrants?: Quadrant[];
+  rings?: Ring[];
   print_layout: boolean;
   links_in_new_tabs: boolean;
   entries?: Technology[];

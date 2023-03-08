@@ -1,6 +1,9 @@
+import { Quadrant } from './quadrant';
+import { Ring } from './ring';
+
 export interface Technology {
-  quadrant: number;
+  quadrant: Quadrant;
   label: string;
-  ring: number;
+  ring: Ring;
   moved: number;
 }

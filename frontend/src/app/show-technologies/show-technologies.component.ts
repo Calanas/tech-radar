@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Technology } from '../model/technology';
-import { TECHNOLOGIES } from '../model/mock-technologies';
+import { QUADRANTS, TECHNOLOGIES, RINGS } from '../model/mock-technologies';
 import { RadarVisualizationConfig } from 'src/app/model/radar-visualization-config';
 import { radar_visualization_config } from '../radar-configuration';
+import { Quadrant } from '../model/quadrant';
+import { Ring } from '../model/ring';
 
 declare function radar_visualization(config: RadarVisualizationConfig): void;
 @Component({
@@ -12,18 +14,24 @@ declare function radar_visualization(config: RadarVisualizationConfig): void;
 })
 export class ShowTechnologiesComponent implements OnInit {
   technologies?: Technology[];
+  quadrants?: Quadrant[];
+  rings?: Ring[];
 
   ngOnInit() {
-    this.getTechnologies();
-    this.insertTechnologies();
+    this.getRadarInfo();
+    this.fillConfig();
   }
 
-  getTechnologies() {
+  getRadarInfo() {
     this.technologies = TECHNOLOGIES;
+    this.quadrants = QUADRANTS;
+    this.rings = RINGS;
   }
 
-  insertTechnologies() {
+  fillConfig() {
     radar_visualization_config.entries = this.technologies;
+    radar_visualization_config.rings = this.rings;
+    radar_visualization_config.quadrants = this.quadrants;
     radar_visualization(radar_visualization_config);
   }
 }
