@@ -1,9 +1,7 @@
 package eu.allgeier.tech_radar.technology;
 
-import java.util.concurrent.ExecutionException;
-
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,39 +22,34 @@ public class TechnologyController {
     @Autowired
     TechnologyService technologyService;
 
-    @GetMapping
-    public Flux<Technology> filterTechnologies(
-            @RequestParam(required = false) String label,
-            @RequestParam(required = false) Integer quadrant,
-            @RequestParam(required = false) Integer ring) throws InterruptedException, ExecutionException {
-        return technologyService.filterTechnologies(label, quadrant, ring);
+    @GetMapping()
+    public Flux<Technology> getTechnologies(
+            @RequestParam(name = "label") Optional<String> label,
+            @RequestParam(name = "quadrant") Optional<Integer> quadrant,
+            @RequestParam(name = "ring") Optional<Integer> ring) {
+        return technologyService.getTechnologies(
+                label.orElse(null),
+                quadrant.orElse(null),
+                ring.orElse(null));
     }
 
-    @PostMapping
-    public Mono<Technology> saveTechnology(@RequestBody Technology technology)
-            throws InterruptedException, ExecutionException {
-        return technologyService.saveTechnology(technology);
+    @GetMapping("/{id}")
+    public Mono<Technology> getTechnology(@PathVariable("id") String id) {
+        return technologyService.getTechnology(id);
     }
 
-    @DeleteMapping("deleteTechnology/{id}")
-    public Mono<Technology> deleteTechnology(@PathVariable String id) {
+    @PutMapping("/{id}")
+    public Mono<Technology> updateTechnology(@PathVariable("id") String id, @RequestBody Technology technology) {
+        return technologyService.updateTechnology(id, technology);
+    }
+
+    @PostMapping()
+    public Mono<Technology> createTechnology(@RequestBody Technology technology) {
+        return technologyService.createTechnology(technology);
+    }
+
+    @DeleteMapping("/{id}")
+    public Mono<Technology> deleteTechnology(@PathVariable("id") String id) {
         return technologyService.deleteTechnology(id);
     }
-
-    @PutMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<Technology> updateTechnology(@PathVariable(name = "id") Long id,
-            @RequestBody Technology newTechnology) {
-        return technologyService.updateTechnology(id, newTechnology);
-    }
-
-    // @PutMapping("/updateTechnology")
-    // public String updateTechnology(@RequestBody Technology technology) throws
-    // InterruptedException, ExecutionException {
-    // return technologyService.updateTechnology(technology);
-    // }
-
-    // @DeleteMapping("/deleteTechnology")
-    // public String deleteTechnology(@RequestParam String label) {
-    // return technologyService.deleteTechnology(label);
-    // }
 }
