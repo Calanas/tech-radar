@@ -2,6 +2,7 @@ package eu.allgeier.tech_radar.controller;
 
 import eu.allgeier.tech_radar.model.Technology;
 import eu.allgeier.tech_radar.service.TechnologyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +14,9 @@ import java.util.Optional;
 @CrossOrigin(origins = "${allowed.crossorigin.url}")
 @RequestMapping("${application.api.version.url}/technologies")
 public class TechnologyController {
-    private final TechnologyService technologyService;
+    @Autowired
+    private TechnologyService technologyService;
 
-    public TechnologyController(TechnologyService technologyService) {
-        this.technologyService = technologyService;
-    }
 
     @GetMapping()
     public List<Technology> getTechnologies
@@ -28,18 +27,18 @@ public class TechnologyController {
         return technologies;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Technology> getTechnologyById(@PathVariable(value = "id") Long id) {
         return technologyService.getTechnologyById(id);
     }
 
-    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Technology> updateTechnology(@PathVariable(name = "id") Long id,
                                                        @RequestBody Technology newTechnology) {
         return technologyService.updateTechnology(id, newTechnology);
     }
 
-    @PostMapping("")
+    @PostMapping()
     public ResponseEntity<Technology> createTechnology(@RequestBody Technology newTechnology) {
         return technologyService.createTechnology(newTechnology);
     }
