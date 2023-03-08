@@ -30,7 +30,7 @@ public class TechnologyController {
         return technologyService.getTechnologies(
                 label.orElse(null),
                 quadrant.orElse(null),
-                ring.orElse(null));
+                ring.orElse(null))
     }
 
     @GetMapping("/{id}")
