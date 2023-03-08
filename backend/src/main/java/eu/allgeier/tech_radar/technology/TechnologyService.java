@@ -37,6 +37,15 @@ public interface TechnologyService {
 	public Mono<Technology> deleteTechnology(String id);
 
 
+    public Mono<Technology> updateTechnology(Long id, Technology newTechnology);
+
+
+    public Flux<Technology> getTechnology(String id);
+
+
+    public Flux<Technology> filterTechnologies(String label, Integer quadrant, Integer ring);
+
+
     // public String deleteTechnology(String label) {
     //     return null;
     // }

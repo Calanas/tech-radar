@@ -1,8 +1,5 @@
 package eu.allgeier.tech_radar.technology;
 
-
-// import org.springframework.cloud.gcp.data.firestore.Document;
-
 import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.spring.data.firestore.Document;
 

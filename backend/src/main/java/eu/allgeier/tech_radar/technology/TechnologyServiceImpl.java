@@ -22,11 +22,6 @@ public class TechnologyServiceImpl implements TechnologyService {
     }
 
     @Override
-    public Mono<Technology> getTechnologyById(String id) throws InterruptedException, ExecutionException {
-        return this.technologyRepository.findById(id);
-    }
-
-    @Override
     public Mono<Technology> saveTechnology(Technology technology) {
         return technologyRepository.save(technology);
     }
@@ -38,6 +33,28 @@ public class TechnologyServiceImpl implements TechnologyService {
                     .flatMap(p -> this.technologyRepository.deleteById(p.getId())
                     .thenReturn(p));
     }
+
+    @Override
+    public Mono<Technology> updateTechnology(Long id, Technology newTechnology) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateTechnology'");
+    }
+
+    @Override
+    public Flux<Technology> getTechnology(String id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getTechnology'");
+    }
+
+    @Override
+    public Flux<Technology> filterTechnologies(String label, Integer quadrant, Integer ring) {
+        return this.technologyRepository.findAll()
+                                .filter(p -> label == null ? true : p.getLabel().equals(label))
+                                .filter(p -> quadrant == null ? true : p.getQuadrant() == quadrant)
+                                .filter(p -> ring == null ? true : p.getRing() == ring);
+
+    }
+
 
     // public String saveTechnology(Technology technology) throws
     // InterruptedException, ExecutionException {

@@ -21,35 +21,22 @@ import reactor.core.publisher.Mono;
 @RequestMapping("${application.api.version.url}/technologies")
 public class TechnologyController {
 
-    // private final FirestoreTemplate firestoreTemplate;
-    // private final TechnologyRepository technologyRepository;
-
     @Autowired
     TechnologyService technologyService;
 
-    // @Autowired
-    // public TechnologyController(TechnologyService technologyService,
-    //         FirestoreTemplate firestoreTemplate, TechnologyRepository technologyRepository) {
-    //     this.firestoreTemplate = firestoreTemplate;
-    //     this.technologyService = technologyService;
-    //     this.technologyRepository = technologyRepository;
-    // }
-
-
     @GetMapping
     public Flux<Technology> filterTechnologies(
-        @RequestParam(required=false) String label,
-        @RequestParam(required=false) Integer quadrant,
-        @RequestParam(required=false) Integer ring
-    ) throws InterruptedException, ExecutionException {
+            @RequestParam(required = false) String label,
+            @RequestParam(required = false) Integer quadrant,
+            @RequestParam(required = false) Integer ring) throws InterruptedException, ExecutionException {
         return technologyService.filterTechnologies(label, quadrant, ring);
     }
 
-    @PostMapping("saveTechnology")
-    public Mono<Technology> saveTechnology(@RequestBody Technology technology) throws InterruptedException, ExecutionException {
+    @PostMapping
+    public Mono<Technology> saveTechnology(@RequestBody Technology technology)
+            throws InterruptedException, ExecutionException {
         return technologyService.saveTechnology(technology);
     }
-
 
     @DeleteMapping("deleteTechnology/{id}")
     public Mono<Technology> deleteTechnology(@PathVariable String id) {
@@ -57,17 +44,19 @@ public class TechnologyController {
     }
 
     @PutMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<Technology> updateTechnology(@PathVariable(name = "id") Long id, @RequestBody Technology newTechnology) {
+    public Mono<Technology> updateTechnology(@PathVariable(name = "id") Long id,
+            @RequestBody Technology newTechnology) {
         return technologyService.updateTechnology(id, newTechnology);
     }
 
     // @PutMapping("/updateTechnology")
-    // public String updateTechnology(@RequestBody Technology technology) throws InterruptedException, ExecutionException {
-    //     return technologyService.updateTechnology(technology);
+    // public String updateTechnology(@RequestBody Technology technology) throws
+    // InterruptedException, ExecutionException {
+    // return technologyService.updateTechnology(technology);
     // }
 
     // @DeleteMapping("/deleteTechnology")
     // public String deleteTechnology(@RequestParam String label) {
-    //     return technologyService.deleteTechnology(label);
+    // return technologyService.deleteTechnology(label);
     // }
 }
