@@ -13,6 +13,16 @@ public class Technology {
     Integer quadrant;
     Integer moved;
 
+    
+
+    public Technology(String id, String label, Integer ring, Integer quadrant, Integer moved) {
+        this.id = id;
+        this.label = label;
+        this.ring = ring;
+        this.quadrant = quadrant;
+        this.moved = moved;
+    }
+
     public Technology() {
     }
 
