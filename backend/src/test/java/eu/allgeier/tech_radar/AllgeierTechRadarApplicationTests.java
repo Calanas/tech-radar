@@ -49,12 +49,12 @@ public class AllgeierTechRadarApplicationTests {
 	private TechnologyRepository technologyRepository;
 
 	@Test
-	public void testConnection() {
+	public void testConnectionDatabase() {
 		assert technologyRepository != null;
 	}
 
 	@Test
-	public void testReadFirstTechnology() {
+	public void testReadFirstTechnologyDatabase() {
 		Flux<Technology> allTechnologiesStream = technologyRepository.findAll();
 		StepVerifier.create(allTechnologiesStream.log())
 				.expectNextMatches(e -> e instanceof Technology)
@@ -72,7 +72,7 @@ public class AllgeierTechRadarApplicationTests {
 	}
 
 	@Test
-	public void testValidValues() {
+	public void testValidValuesDatabase() {
 		List<Technology> technologyLabels = technologyRepository.findAll().collectList().block();
 		for (Technology technology : technologyLabels) {
 			assert technology.getQuadrant() >= 1 && technology.getQuadrant() < 5
@@ -89,9 +89,8 @@ public class AllgeierTechRadarApplicationTests {
 	}
 
 	@Test
-	public void findTechnologyById_ifPresent() {
-		Technology testTechnology = new Technology("TestTechnology", 1, 0, 1);
-		StringBuilder sb = new StringBuilder();
+	public void testInputOutputDatabase() {
+		Technology testTechnology = new Technology("TestTechnology", 1, 3, 1);
 		String resultingId = technologyRepository.save(testTechnology).block().getId(); // .subscribe(e ->
 																						// sb.append(e.getId()));
 		StepVerifier.create(technologyRepository
@@ -99,6 +98,20 @@ public class AllgeierTechRadarApplicationTests {
 				.expectNext(testTechnology)
 				.verifyComplete();
 		technologyRepository.deleteById(testTechnology.getId()).subscribe();
+	}
+
+	@Test
+	public void updateTechnologyDatabase () {
+		Technology testTechnology = new Technology("TestTechnology", 1, 2, 1);
+		String resultingId = technologyRepository.save(testTechnology).block().getId(); // .subscribe(e ->
+		
+		StepVerifier.create(technologyRepository
+				.findByLabel("TestTechnology").log())
+				.expectNextMatches(t -> 
+					t.getLabel().equals("TestTechnology"))
+				.verifyComplete();
+
+		technologyRepository.
 	}
 
 }
