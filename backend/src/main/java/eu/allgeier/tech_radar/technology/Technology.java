@@ -7,11 +7,11 @@ import com.google.cloud.spring.data.firestore.Document;
 public class Technology {
 
     @DocumentId
-    String id;
-    String label;
-    Integer ring;
-    Integer quadrant;
-    Integer moved;
+    private String id;
+    private String label;
+    private Integer ring;
+    private Integer quadrant;
+    private Integer moved;
 
     
 
@@ -84,6 +84,13 @@ public class Technology {
         return result;
     }
 
+    
+
+    @Override
+    public String toString() {
+        return "Technology [label=" + label + ", ring=" + ring + ", quadrant=" + quadrant + ", moved=" + moved + "]";
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -116,6 +123,7 @@ public class Technology {
         return true;
     }
 
+    
     
 
 }
