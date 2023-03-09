@@ -8,19 +8,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.runner.RunWith;
-
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import eu.allgeier.tech_radar.AllgeierTechRadarApplication;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = AllgeierTechRadarApplication.class)
 public class TechnologyDatabaseTest {
 
