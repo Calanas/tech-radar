@@ -3,6 +3,8 @@ package eu.allgeier.tech_radar.technology;
 import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.spring.data.firestore.Document;
 
+import java.util.Objects;
+
 @Document(collectionName = "TechRadarEntry")
 public class Technology {
 
@@ -63,4 +65,16 @@ public class Technology {
         this.id = id;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Technology that = (Technology) o;
+        return getLabel().equals(that.getLabel()) && getRing().equals(that.getRing()) && getQuadrant().equals(that.getQuadrant()) && getMoved().equals(that.getMoved());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getLabel(), getRing(), getQuadrant(), getMoved());
+    }
 }
