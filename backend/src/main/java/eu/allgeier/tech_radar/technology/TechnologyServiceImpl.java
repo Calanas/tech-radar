@@ -51,4 +51,5 @@ public class TechnologyServiceImpl implements TechnologyService {
                                 .filter(p -> quadrant == null || p.getQuadrant().equals(quadrant))
                                 .filter(p -> ring == null || p.getRing().equals(ring));
     }
+
 }

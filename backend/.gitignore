@@ -14,6 +14,7 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
+.idea
 *.iws
 *.iml
 *.ipr
@@ -30,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### personal ###
+test.http
+src/main/resources/*.json
+# serviceaccount.json

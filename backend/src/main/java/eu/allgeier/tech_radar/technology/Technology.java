@@ -15,6 +15,16 @@ public class Technology {
     private Integer quadrant;
     private Integer moved;
 
+    
+
+    public Technology(String id, String label, Integer ring, Integer quadrant, Integer moved) {
+        this.id = id;
+        this.label = label;
+        this.ring = ring;
+        this.quadrant = quadrant;
+        this.moved = moved;
+    }
+
     public Technology() {
     }
 
@@ -76,5 +86,10 @@ public class Technology {
     @Override
     public int hashCode() {
         return Objects.hash(getLabel(), getRing(), getQuadrant(), getMoved());
+    }
+
+    @Override
+    public String toString() {
+        return "Technology [label=" + label + ", ring=" + ring + ", quadrant=" + quadrant + ", moved=" + moved + "]";
     }
 }
