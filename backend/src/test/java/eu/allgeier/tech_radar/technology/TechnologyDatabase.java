@@ -1,4 +1,4 @@
-package eu.allgeier.tech_radar;
+package eu.allgeier.tech_radar.technology;
 
 
 import java.util.HashSet;
@@ -14,7 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
+import eu.allgeier.tech_radar.AllgeierTechRadarApplication;
 import eu.allgeier.tech_radar.technology.Technology;
 import eu.allgeier.tech_radar.technology.TechnologyRepository;
 import reactor.core.publisher.Flux;
@@ -23,7 +23,7 @@ import reactor.test.StepVerifier;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AllgeierTechRadarApplication.class)
 @AutoConfigureMockMvc
-public class AllgeierTechRadarApplicationTests {
+public class TechnologyDatabase {
 
 	@Autowired
 	private TechnologyRepository technologyRepository;
