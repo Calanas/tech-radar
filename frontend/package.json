@@ -8,7 +8,10 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "prepare": "cd ../ && husky install ./frontend/.husky"
+    "prepare": "cd ../ && husky install ./frontend/.husky",
+    "e2e": "ng e2e",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "private": true,
   "dependencies": {
@@ -20,6 +23,8 @@
     "@angular/platform-browser": "^15.2.0",
     "@angular/platform-browser-dynamic": "^15.2.0",
     "@angular/router": "^15.2.0",
+    "bulma": "^0.9.4",
+    "d3": "^7.8.2",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
     "rxjs": "~7.8.0",
@@ -35,6 +40,7 @@
     "@angular-eslint/template-parser": "15.2.1",
     "@angular/cli": "~15.2.1",
     "@angular/compiler-cli": "^15.2.0",
+    "@cypress/schematic": "^2.5.0",
     "@types/jasmine": "~4.3.0",
     "@typescript-eslint/eslint-plugin": "5.48.2",
     "@typescript-eslint/parser": "5.48.2",
@@ -49,7 +55,8 @@
     "karma-jasmine-html-reporter": "~2.0.0",
     "prettier": "^2.8.4",
     "prettier-eslint": "^15.0.1",
-    "typescript": "~4.9.4"
+    "typescript": "~4.9.4",
+    "cypress": "latest"
   },
   "husky": {
     "hooks": {
