@@ -15,14 +15,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import eu.allgeier.tech_radar.AllgeierTechRadarApplication;
-import eu.allgeier.tech_radar.technology.Technology;
-import eu.allgeier.tech_radar.technology.TechnologyRepository;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AllgeierTechRadarApplication.class)
-@AutoConfigureMockMvc
 public class TechnologyDatabase {
 
 	@Autowired
@@ -37,12 +34,12 @@ public class TechnologyDatabase {
 
 
 	@Test
-	public void testConnectionDatabase() {
+	public void databaseConnection() {
 		assert technologyRepository != null;
 	}
 
 	@Test
-	public void testReadFirstTechnologyDatabase() {
+	public void readFirstTechnology_ShouldShowTechnology() {
 		Flux<Technology> allTechnologiesStream = technologyRepository.findAll();
 		StepVerifier.create(allTechnologiesStream.log())
 				.expectNextMatches(e -> e instanceof Technology)
@@ -51,7 +48,7 @@ public class TechnologyDatabase {
 	}
 
 	@Test
-	public void testTechnologyUniqueLabels() {
+	public void allTechnologies_ShouldHaveUniqueLabels() {
 		List<String> technologyLabels = technologyRepository.findAll()
 				.map(e -> e.getLabel())
 				.collectList().block();
@@ -60,7 +57,7 @@ public class TechnologyDatabase {
 	}
 
 	@Test
-	public void testValidValuesDatabase() {
+	public void allTechnologies_ShouldHaveValidValues() {
 		List<Technology> technologyLabels = technologyRepository.findAll().collectList().block();
 		for (Technology technology : technologyLabels) {
 			assert technology.getQuadrant() >= 1 && technology.getQuadrant() < 5
@@ -77,11 +74,10 @@ public class TechnologyDatabase {
 	}
 
 	@Test
-	public void testInputOutputDatabase() {
+	public void writeRead_ShouldHaveAccess() {
 		String resultingId = technologyRepository.save(this.testTechnology).block().getId(); // .subscribe(e ->
 		
-		
-		try {// sb.append(e.getId()));
+		try {
 		StepVerifier.create(technologyRepository
 				.findById(resultingId).log())
 				.expectNext(this.testTechnology)
@@ -92,10 +88,9 @@ public class TechnologyDatabase {
 	}
 
 	@Test
-	public void updateTechnologyDatabase() {
+	public void updateTechnology_ShouldUpdateInDatabase() {
 		String resultingId = technologyRepository.save(this.testTechnology).block().getId(); // .subscribe(e ->
 
-		// Stehen geblieben Datenbank vorher räumen
 		try
 		{
 			StepVerifier.create(technologyRepository
