@@ -24,8 +24,8 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss", "src/assets/fonts/roboto/roboto.css", "src/assets/colors/_colors.scss"],
-            "scripts": ["src/assets/scripts/radar.js", "./node_modules/d3/dist/d3.min.js"]
+            "styles": ["src/styles.scss"],
+            "scripts": ["src/assets/scripts/radar.js", "./node_modules/d3/dist/d3.min.js", "./node_modules/uikit/dist/js/uikit.min.js", "./node_modules/uikit/dist/js/uikit-icons.min.js"]
           },
           "configurations": {
             "production": {

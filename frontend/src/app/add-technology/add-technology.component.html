@@ -1,0 +1,50 @@
+<div class="uk-width-1-5 uk-margin-bottom uk-margin-left uk-margin-right">
+  <form [formGroup]="technologyForm">
+    <fieldset class="uk-fieldset">
+      <legend class="uk-legend uk-card-title">Add technology:</legend>
+      <div class="uk-margin">
+        <input
+          class="uk-input"
+          type="text"
+          placeholder="Name"
+          aria-label="Input"
+          formControlName="label"
+        />
+      </div>
+      <div class="uk-margin">
+        <select
+          class="uk-select"
+          aria-label="Select"
+          formControlName="quadrant"
+        >
+          <option value="null" disabled selected>Select quadrant</option>
+          <hr class="uk-divider-icon" />
+          <option *ngFor="let quadrant of quadrants" [ngValue]="quadrant">
+            <button type="button">
+              {{ quadrant.name }}
+            </button>
+          </option>
+        </select>
+      </div>
+      <div class="uk-margin">
+        <select class="uk-select" aria-label="Select" formControlName="ring">
+          <option value="null" disabled selected>Select ring</option>
+          <hr class="uk-divider-icon" />
+          <option *ngFor="let ring of rings" [ngValue]="ring">
+            <button type="button">
+              {{ ring.name }}
+            </button>
+          </option>
+        </select>
+      </div>
+    </fieldset>
+  </form>
+
+  <button
+    class="uk-button uk-button-default"
+    (click)="addTechnology()"
+    [disabled]="!technologyForm.valid"
+  >
+    Add
+  </button>
+</div>

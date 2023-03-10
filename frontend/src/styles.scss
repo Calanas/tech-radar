@@ -1,9 +1,10 @@
 @use "src/assets/fonts/roboto/roboto.css";
 @use "src/assets/colors/colors.scss";
+@use "../node_modules/uikit/dist/css/uikit.min.css";
+
 $custom-colors: colors.$custom-colors;
 $family-primary: "Roboto Flex";
 $color-primary: map-get($custom-colors, "Cobalt");
-@use "../node_modules/bulma/bulma.sass";
 
 html,
 body {
@@ -11,23 +12,15 @@ body {
 }
 
 .radar_title {
-  @extend .title;
-  @extend .has-text-weight-semibold;
-  @extend .is-size-1;
   fill: $color-primary;
 }
 
 .radar_footer {
-  @extend .subtitle;
-  @extend .is-size-6;
 }
 
 .radar_stage_ring {
-  @extend .title;
-  @extend .is-size-2;
 }
 
 .radar_bubble_text {
   fill: white;
-  @extend .has-text-centered;
 }
