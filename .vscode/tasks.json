@@ -18,6 +18,9 @@
             "regexp": "bundle generation complete"
           }
         }
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
       }
     },
     {

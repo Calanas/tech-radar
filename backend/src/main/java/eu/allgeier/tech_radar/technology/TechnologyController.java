@@ -2,6 +2,7 @@ package eu.allgeier.tech_radar.technology;
 
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("${application.api.version.url}/technologies")
+@CrossOrigin(origins = "http://localhost:4200")
 public class TechnologyController {
 
     @Autowired
