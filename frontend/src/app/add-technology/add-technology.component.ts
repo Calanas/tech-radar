@@ -35,6 +35,7 @@ export class AddTechnologyComponent implements OnInit {
 
   addTechnology(): void {
     const newTech: Technology = this.technologyForm.value as Technology;
+    newTech.ringChanged = new Date();
     console.log(newTech);
     //service POST newTech
   }
