@@ -1,0 +1,59 @@
+name: Building and Testing Backend
+
+on:
+  pull_request:
+    branches: [ "develop" ]
+
+env:
+  JAVA_VERSION: '17'
+  JAVA_DISTRIBUTION: 'temurin'
+
+jobs:
+
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+      
+      - name: Build
+        run: mvn --batch-mode --update-snapshots -DskipTests --file backend/pom.xml package
+
+  
+  test:
+
+    runs-on: self-hosted
+
+    permissions:
+      contents: read
+      checks: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: $ {{ env.JAVA_DISTRIBUTION }}
+
+      - name: Test
+        run: mvn --batch-mode -DtestFailureIgnore=true test
+
+      - name: Report Tests
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Test Reports
+          path: backend/target/surefire-reports/*.xml
+          reporter: java-junit
+          fail-on-error: true  # Fail workflow if there were failed tests.
