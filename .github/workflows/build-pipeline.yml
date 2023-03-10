@@ -23,6 +23,7 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: ${{ env.JAVA_DISTRIBUTION }}
+          cache: maven
       
       - name: Build
         run: mvn --batch-mode --update-snapshots -DskipTests --file backend/pom.xml package
@@ -45,6 +46,7 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: $ {{ env.JAVA_DISTRIBUTION }}
+          cache: maven
 
       - name: Test
         run: mvn --batch-mode -DtestFailureIgnore=true test
