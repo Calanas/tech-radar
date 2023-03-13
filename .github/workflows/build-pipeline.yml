@@ -16,8 +16,11 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - uses: actions/checkout@v3
       - name: Checkout Code
-        uses: actions/checkout@v3
+        run: ./backend/decrypt.sh
+        env:
+          ENCRYPT_PASSWORD: ${{ secrets.CI_TOKEN }}
 
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -39,16 +42,6 @@ jobs:
       checks: write
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-          distribution: ${{ env.JAVA_DISTRIBUTION }}
-          cache: maven
-
       - name: Test
         run: mvn --batch-mode -DtestFailureIgnore=true --file $POM_PATH test
 
