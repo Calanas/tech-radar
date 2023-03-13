@@ -7,6 +7,7 @@ on:
 env:
   JAVA_VERSION: '17'
   JAVA_DISTRIBUTION: 'temurin'
+  POM_PATH: 'backend/pom.xml'
 
 jobs:
 
@@ -26,7 +27,7 @@ jobs:
           cache: maven
       
       - name: Build
-        run: mvn --batch-mode --update-snapshots -DskipTests --file backend/pom.xml package
+        run: mvn --batch-mode --update-snapshots -DskipTests --file $POM_PATH package
 
   
   test:
@@ -49,7 +50,7 @@ jobs:
           cache: maven
 
       - name: Test
-        run: mvn --batch-mode -DtestFailureIgnore=true test
+        run: mvn --batch-mode -DtestFailureIgnore=true --file $POM_PATH test
 
       - name: Report Tests
         uses: dorny/test-reporter@v1
