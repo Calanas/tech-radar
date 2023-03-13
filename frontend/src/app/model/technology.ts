@@ -7,10 +7,3 @@ export interface Technology {
   ring: Ring;
   moved: number;
 }
-
-export interface TechnologyBackend {
-  quadrant: number;
-  label: string;
-  ring: number;
-  moved: number;
-}

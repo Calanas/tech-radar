@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import eu.allgeier.tech_radar.quadrant.Quadrant;
+import eu.allgeier.tech_radar.ring.Ring;
+import eu.allgeier.tech_radar.ring.RingService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -23,12 +26,14 @@ public class TechnologyController {
 
     @Autowired
     TechnologyService technologyService;
+    @Autowired
+    RingService ringService;
 
     @GetMapping()
     public Flux<Technology> getTechnologies(
             @RequestParam(name = "label") Optional<String> label,
-            @RequestParam(name = "quadrant") Optional<Integer> quadrant,
-            @RequestParam(name = "ring") Optional<Integer> ring) {
+            @RequestParam(name = "quadrant") Optional<Quadrant> quadrant,
+            @RequestParam(name = "ring") Optional<Ring> ring) {
         return technologyService.getTechnologies(
                 label.orElse(null),
                 quadrant.orElse(null),
@@ -54,4 +59,5 @@ public class TechnologyController {
     public Mono<Technology> deleteTechnology(@PathVariable("id") String id) {
         return technologyService.deleteTechnology(id);
     }
+
 }

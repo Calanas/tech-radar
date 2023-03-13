@@ -8,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
+
+import eu.allgeier.tech_radar.quadrant.Quadrant;
+import eu.allgeier.tech_radar.ring.Ring;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import java.util.List;
@@ -30,7 +34,9 @@ public class TechnologyControllerTest {
         String[] technologiesNames = {"JavaScript", "Java", "C++", "Quarkus"};
         Technology[] technologiesArray = new Technology[technologiesNames.length];
         for (int i = 0; i < technologiesNames.length; ++i) {
-            Technology technology = new Technology(technologiesNames[i], i, i, i);
+            Ring ring = new Ring(i, "Ring" + i, "0xFFFFFF");
+            Quadrant quadrant = new Quadrant(i, "Quadrant" + i);
+            Technology technology = new Technology(technologiesNames[i], ring, quadrant, i);
             technology.setId(String.valueOf(i));
             technologiesArray[i] = technology;
         }
@@ -78,7 +84,7 @@ public class TechnologyControllerTest {
     @Test
     public void shouldGetTechnologiesByQuadrant() {
         Technology expected = technologies.get(2);
-        Integer technologyQuadrant = expected.getQuadrant();
+        Quadrant technologyQuadrant = expected.getQuadrant();
         when(technologyService.getTechnologies(null, technologyQuadrant , null))
                 .thenReturn(Flux.just(expected));
 
@@ -94,7 +100,7 @@ public class TechnologyControllerTest {
     @Test
     public void shouldGetTechnologiesByRing() {
         Technology expected = technologies.get(3);
-        Integer technologyRing = expected.getRing();
+        Ring technologyRing = expected.getRing();
         when(technologyService.getTechnologies(null, null , technologyRing))
                 .thenReturn(Flux.just(expected));
 
@@ -147,7 +153,9 @@ public class TechnologyControllerTest {
 
     @Test
     public void shouldCreateNewTechnology() {
-        Technology newTechnology = new Technology("TEST", 1, 1, 1);
+        Ring ring = new Ring(0, "RingTest", "0xFFFFFF");
+        Quadrant quadrant = new Quadrant(0, "QuadrantTest");
+        Technology newTechnology = new Technology("TEST", ring, quadrant, 1);
         newTechnology.setId("1");
 
         when(technologyService.createTechnology(any())).thenReturn(Mono.just(newTechnology));
@@ -157,7 +165,8 @@ public class TechnologyControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(newTechnology), Technology.class)
                 .exchange()
-                .expectBody(Technology.class).isEqualTo(newTechnology);
+                .expectBody(Technology.class)
+                .isEqualTo(newTechnology);
     }
 
     @Test

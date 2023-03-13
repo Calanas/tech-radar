@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import eu.allgeier.tech_radar.AllgeierTechRadarApplication;
+import eu.allgeier.tech_radar.ring.Ring;
+import eu.allgeier.tech_radar.ring.RingRepository;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
@@ -22,11 +24,14 @@ public class TechnologyDatabaseTest {
 
 	@Autowired
 	private TechnologyRepository technologyRepository;
+	@Autowired
+	private static RingRepository ringRepository;
 
 	private static Technology testTechnology;
 
 	@BeforeAll
 	static void init() {
+		List<Ring> rings = ringRepository.findAll().collectList().toFuture().get();
 		testTechnology = new Technology("TestTechnology", 1, 3, 1);
 	}
 
