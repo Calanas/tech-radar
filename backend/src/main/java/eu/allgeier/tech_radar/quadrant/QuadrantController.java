@@ -35,5 +35,4 @@ public class QuadrantController {
         return this.quadrantService.deleteQuadrant(id);
     }
 
-    
 }

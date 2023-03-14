@@ -29,5 +29,5 @@ public class QuadrantServiceImpl implements QuadrantService {
                 .flatMap(p -> this.quadrantRepository.deleteById(p.getId())
                         .thenReturn(p));
     }
-    
+
 }

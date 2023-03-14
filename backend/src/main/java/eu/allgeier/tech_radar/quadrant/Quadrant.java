@@ -3,7 +3,6 @@ package eu.allgeier.tech_radar.quadrant;
 import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.spring.data.firestore.Document;
 
-
 @Document(collectionName = "Quadrants")
 public class Quadrant {
     @DocumentId
@@ -43,8 +42,6 @@ public class Quadrant {
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
-
-    
 
     @Override
     public boolean equals(Object obj) {
