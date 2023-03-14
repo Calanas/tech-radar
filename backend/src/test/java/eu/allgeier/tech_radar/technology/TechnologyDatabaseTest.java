@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import eu.allgeier.tech_radar.AllgeierTechRadarApplication;
+import eu.allgeier.tech_radar.quadrant.Quadrant;
+import eu.allgeier.tech_radar.ring.Ring;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
@@ -27,7 +29,9 @@ public class TechnologyDatabaseTest {
 
 	@BeforeAll
 	static void init() {
-		testTechnology = new Technology("TestTechnology", 1, 3, 1);
+		Ring ring = new Ring(0, "RingTest", "0xFFFFFF");
+		Quadrant quadrant = new Quadrant(0, "QuadrantTest");
+		testTechnology = new Technology("TestTechnology", ring, quadrant, 1);
 	}
 
 	@Test
@@ -57,12 +61,12 @@ public class TechnologyDatabaseTest {
 	public void allTechnologies_ShouldHaveValidValues() {
 		List<Technology> technologyLabels = technologyRepository.findAll().collectList().block();
 		for (Technology technology : technologyLabels) {
-			assertTrue(technology.getQuadrant() >= 1 && technology.getQuadrant() < 5,
-					String.format("Technology %s is in quadrant %d!", technology.getLabel(),
-							technology.getQuadrant()));
-			assertTrue(technology.getRing() >= 1 && technology.getRing() < 5,
-					String.format("Technology %s is in ring %d!", technology.getLabel(),
-							technology.getRing()));
+			assertTrue(technology.getQuadrant().getIndex() >= 0 && technology.getQuadrant().getIndex() < 4,
+					String.format("Technology %s is in quadrant %s!", technology.getLabel(),
+							technology.getQuadrant().getName()));
+			assertTrue(technology.getRing().getIndex() >= 0 && technology.getRing().getIndex() < 4,
+					String.format("Technology %s is in ring %s!", technology.getLabel(),
+							technology.getRing().getName()));
 			assertTrue(technology.getMoved() >= -3 && technology.getMoved() <= 3,
 					String.format("Technology %s moved by %d!", technology.getLabel(),
 							technology.getMoved()));
@@ -73,7 +77,6 @@ public class TechnologyDatabaseTest {
 	@Test
 	public void writeRead_ShouldHaveAccess() {
 		String resultingId = technologyRepository.save(testTechnology).block().getId();
-
 		try {
 			StepVerifier.create(technologyRepository
 					.findById(resultingId).log())
@@ -86,8 +89,7 @@ public class TechnologyDatabaseTest {
 
 	@Test
 	public void updateTechnology_ShouldUpdateInDatabase() {
-		String resultingId = technologyRepository.save(testTechnology).block().getId(); 
-
+		String resultingId = technologyRepository.save(testTechnology).block().getId();
 		try {
 			StepVerifier.create(technologyRepository
 					.findByLabel("TestTechnology").log())

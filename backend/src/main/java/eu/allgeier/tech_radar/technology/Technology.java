@@ -3,21 +3,20 @@ package eu.allgeier.tech_radar.technology;
 import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.spring.data.firestore.Document;
 
-import java.util.Objects;
+import eu.allgeier.tech_radar.quadrant.Quadrant;
+import eu.allgeier.tech_radar.ring.Ring;
 
-@Document(collectionName = "TechRadarEntry")
+@Document(collectionName = "Technologies")
 public class Technology {
 
     @DocumentId
     private String id;
     private String label;
-    private Integer ring;
-    private Integer quadrant;
+    private Ring ring;
+    private Quadrant quadrant;
     private Integer moved;
 
-    
-
-    public Technology(String id, String label, Integer ring, Integer quadrant, Integer moved) {
+    public Technology(String id, String label, Ring ring, Quadrant quadrant, Integer moved) {
         this.id = id;
         this.label = label;
         this.ring = ring;
@@ -36,19 +35,19 @@ public class Technology {
         this.label = label;
     }
 
-    public Integer getRing() {
+    public Ring getRing() {
         return ring;
     }
 
-    public void setRing(Integer ring) {
+    public void setRing(Ring ring) {
         this.ring = ring;
     }
 
-    public Integer getQuadrant() {
+    public Quadrant getQuadrant() {
         return quadrant;
     }
 
-    public void setQuadrant(Integer quadrant) {
+    public void setQuadrant(Quadrant quadrant) {
         this.quadrant = quadrant;
     }
 
@@ -60,11 +59,19 @@ public class Technology {
         this.moved = moved;
     }
 
-    public Technology(String label, Integer ring, Integer quadrant, Integer moved) {
+    public Technology(String label, Ring ring, Quadrant quadrant, Integer moved) {
         this.label = label;
         this.ring = ring;
         this.quadrant = quadrant;
         this.moved = moved;
+    }
+
+    public Technology(Technology technology) {
+        this.id = technology.getId();
+        this.label = technology.getLabel();
+        this.ring = technology.getRing();
+        this.quadrant = technology.getQuadrant();
+        this.moved = technology.getMoved();
     }
 
     public String getId() {
@@ -76,16 +83,28 @@ public class Technology {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Technology that = (Technology) o;
-        return getLabel().equals(that.getLabel()) && getRing().equals(that.getRing()) && getQuadrant().equals(that.getQuadrant()) && getMoved().equals(that.getMoved());
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Technology other = (Technology) obj;
+        if (label == null) {
+            if (other.label != null)
+                return false;
+        } else if (!label.equals(other.label))
+            return false;
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getLabel(), getRing(), getQuadrant(), getMoved());
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((label == null) ? 0 : label.hashCode());
+        return result;
     }
 
     @Override

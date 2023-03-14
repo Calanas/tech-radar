@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Technology } from '../model/technology';
-import { QUADRANTS, TECHNOLOGIES, RINGS } from '../model/mock-technologies';
 import { RadarVisualizationConfig } from 'src/app/model/radar-visualization-config';
 import { radar_visualization_config } from '../radar-configuration';
 import { Quadrant } from '../model/quadrant';
 import { Ring } from '../model/ring';
+import { FirestoreService } from '../firestore.service';
+import { combineLatest } from 'rxjs';
 
 declare function radar_visualization(config: RadarVisualizationConfig): void;
 @Component({
@@ -17,15 +18,21 @@ export class ShowTechnologiesComponent implements OnInit {
   quadrants?: Quadrant[];
   rings?: Ring[];
 
-  ngOnInit() {
-    this.getRadarInfo();
-    this.fillConfig();
-  }
+  constructor(private firestoreService: FirestoreService) {}
 
-  getRadarInfo() {
-    this.technologies = TECHNOLOGIES;
-    this.quadrants = QUADRANTS;
-    this.rings = RINGS;
+  ngOnInit() {
+    const technologies$ = this.firestoreService.getTechnologies();
+    const rings$ = this.firestoreService.getRings();
+    const quadrants$ = this.firestoreService.getQuadrants();
+
+    combineLatest([technologies$, rings$, quadrants$]).subscribe(
+      ([technologies, rings, quadrants]) => {
+        this.technologies = technologies;
+        this.quadrants = quadrants;
+        this.rings = rings;
+        this.fillConfig();
+      }
+    );
   }
 
   fillConfig() {
