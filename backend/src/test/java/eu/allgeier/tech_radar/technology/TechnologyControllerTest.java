@@ -45,16 +45,16 @@ public class TechnologyControllerTest {
                 technologies = List.of(technologiesArray);
         }
 
-    @Test
-    public void shouldGetAllTechnologiesWhenRequestParameterMissing() {
-        when(technologyService.getTechnologies(null, null, null))
-                .thenReturn(Flux.fromIterable(technologies));
+        @Test
+        public void shouldGetAllTechnologiesWhenRequestParameterMissing() {
+                when(technologyService.getTechnologies(null, null, null))
+                        .thenReturn(Flux.fromIterable(technologies));
 
-        webTestClient.get().uri(endpoint)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBodyList(Technology.class).hasSize(technologies.size());
-    }
+                webTestClient.get().uri(endpoint)
+                        .exchange()
+                        .expectStatus().isOk()
+                        .expectBodyList(Technology.class).hasSize(technologies.size());
+        }
 
         @Test
         public void shouldGetTechnologyById() {

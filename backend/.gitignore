@@ -35,4 +35,3 @@ build/
 ### personal ###
 test.http
 src/main/resources/*.json
-# serviceaccount.json
