@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import eu.allgeier.tech_radar.quadrant.Quadrant;
 import eu.allgeier.tech_radar.ring.Ring;
+import eu.allgeier.tech_radar.ring.RingService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import java.util.List;
@@ -23,6 +23,8 @@ public class TechnologyControllerTest {
     private final String endpoint = "/api/v1/technologies";
     @MockBean
     private TechnologyService technologyService;
+    @MockBean
+    private RingService ringService;
 
     @Autowired
     private WebTestClient webTestClient;
@@ -85,10 +87,10 @@ public class TechnologyControllerTest {
     public void shouldGetTechnologiesByQuadrant() {
         Technology expected = technologies.get(2);
         Quadrant technologyQuadrant = expected.getQuadrant();
-        when(technologyService.getTechnologies(null, technologyQuadrant , null))
+        when(technologyService.getTechnologies(null, technologyQuadrant.getIndex() , null))
                 .thenReturn(Flux.just(expected));
 
-        Technology actual = webTestClient.get().uri(endpoint + "?quadrant=" + technologyQuadrant)
+        Technology actual = webTestClient.get().uri(endpoint + "?quadrantIndex=" + technologyQuadrant.getIndex())
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(Technology.class)
@@ -101,10 +103,10 @@ public class TechnologyControllerTest {
     public void shouldGetTechnologiesByRing() {
         Technology expected = technologies.get(3);
         Ring technologyRing = expected.getRing();
-        when(technologyService.getTechnologies(null, null , technologyRing))
+        when(technologyService.getTechnologies(null, null , technologyRing.getIndex()))
                 .thenReturn(Flux.just(expected));
 
-        Technology actual = webTestClient.get().uri(endpoint + "?ring=" + technologyRing)
+        Technology actual = webTestClient.get().uri(endpoint + "?ringIndex=" + technologyRing.getIndex())
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(Technology.class)
@@ -173,12 +175,12 @@ public class TechnologyControllerTest {
     public void shouldDeleteTechnology() {
         String technologyToDeleteID = technologies.get(0).getId();
         when(technologyService.deleteTechnology(technologyToDeleteID))
-                .thenReturn(Mono.just(technologies.get(0)));
+                .thenReturn(Mono.just("").then());
 
         webTestClient
                 .delete()
                 .uri(endpoint + "/" + technologyToDeleteID)
                 .exchange()
-                .expectBody(Technology.class).isEqualTo(technologies.get(0));
+                .expectStatus().isNoContent();
     }
 }

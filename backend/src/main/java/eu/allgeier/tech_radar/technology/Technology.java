@@ -16,8 +16,6 @@ public class Technology {
     private Quadrant quadrant;
     private Integer moved;
 
-    
-
     public Technology(String id, String label, Ring ring, Quadrant quadrant, Integer moved) {
         this.id = id;
         this.label = label;
@@ -68,6 +66,14 @@ public class Technology {
         this.moved = moved;
     }
 
+    public Technology(Technology technology) {
+        this.id = technology.getId();
+        this.label = technology.getLabel();
+        this.ring = technology.getRing();
+        this.quadrant = technology.getQuadrant();
+        this.moved = technology.getMoved();
+    }
+
     public String getId() {
         return id;
     }
@@ -75,9 +81,6 @@ public class Technology {
     public void setId(String id) {
         this.id = id;
     }
-
-
-    
 
     @Override
     public boolean equals(Object obj) {
