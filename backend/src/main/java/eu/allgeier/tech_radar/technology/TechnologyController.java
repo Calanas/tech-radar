@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import eu.allgeier.tech_radar.ring.RingService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

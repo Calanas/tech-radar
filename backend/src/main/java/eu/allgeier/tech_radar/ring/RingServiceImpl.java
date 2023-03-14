@@ -33,7 +33,7 @@ public class RingServiceImpl implements RingService {
     @Override
     public Mono<Boolean> existsRing(Ring ring) {
         return this.ringRepository.findByIndexAndNameAndColor(ring.getIndex(), ring.getName(), ring.getColor())
-                .flatMap(p -> Mono.just(true))        
+                .flatMap(p -> Mono.just(true))
                 .switchIfEmpty(Mono.just(false));
     }
 }

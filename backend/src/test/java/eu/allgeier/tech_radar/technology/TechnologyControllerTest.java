@@ -20,30 +20,31 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @WebFluxTest(TechnologyController.class)
 public class TechnologyControllerTest {
-    private final String endpoint = "/api/v1/technologies";
-    @MockBean
-    private TechnologyService technologyService;
-    @MockBean
-    private RingService ringService;
+        private final String endpoint = "/api/v1/technologies";
+        @MockBean
+        private TechnologyService technologyService;
+        @MockBean
+        private RingService ringService;
 
-    @Autowired
-    private WebTestClient webTestClient;
+        @Autowired
+        private WebTestClient webTestClient;
 
-    private static List<Technology> technologies;
+        private static List<Technology> technologies;
 
-    @BeforeAll
-    static void setup() {
-        String[] technologiesNames = {"JavaScript", "Java", "C++", "Quarkus"};
-        Technology[] technologiesArray = new Technology[technologiesNames.length];
-        for (int i = 0; i < technologiesNames.length; ++i) {
-            Ring ring = new Ring(i, "Ring" + i, "0xFFFFFF");
-            Quadrant quadrant = new Quadrant(i, "Quadrant" + i);
-            Technology technology = new Technology(technologiesNames[i], ring, quadrant, i);
-            technology.setId(String.valueOf(i));
-            technologiesArray[i] = technology;
+        @BeforeAll
+        static void setup() {
+                String[] technologiesNames = { "JavaScript", "Java", "C++", "Quarkus" };
+                Technology[] technologiesArray = new Technology[technologiesNames.length];
+                for (int i = 0; i < technologiesNames.length; ++i) {
+                        Ring ring = new Ring(i, "Ring" + i, "0xFFFFFF");
+                        Quadrant quadrant = new Quadrant(i, "Quadrant" + i);
+                        Technology technology = new Technology(technologiesNames[i], ring, quadrant, i);
+                        technology.setId(String.valueOf(i));
+                        technologiesArray[i] = technology;
+                }
+                technologies = List.of(technologiesArray);
         }
-        technologies = List.of(technologiesArray);
-    }
+
     @Test
     public void shouldGetAllTechnologiesWhenRequestParameterMissing() {
         when(technologyService.getTechnologies(null, null, null))
@@ -55,132 +56,133 @@ public class TechnologyControllerTest {
                 .expectBodyList(Technology.class).hasSize(technologies.size());
     }
 
-    @Test
-    public void shouldGetTechnologyById() {
-        Technology expected = technologies.get(0);
-        String technologyId = expected.getId();
-        when(technologyService.getTechnology(technologyId)).thenReturn(Mono.just(expected));
+        @Test
+        public void shouldGetTechnologyById() {
+                Technology expected = technologies.get(0);
+                String technologyId = expected.getId();
+                when(technologyService.getTechnology(technologyId)).thenReturn(Mono.just(expected));
 
-        webTestClient.get().uri(endpoint + "/" + technologyId)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(Technology.class).isEqualTo(expected);
-    }
+                webTestClient.get().uri(endpoint + "/" + technologyId)
+                                .exchange()
+                                .expectStatus().isOk()
+                                .expectBody(Technology.class).isEqualTo(expected);
+        }
 
-    @Test
-    public void shouldGetTechnologiesByLabel() {
-        Technology expected = technologies.get(1);
-        String technologyLabel = expected.getLabel();
-        when(technologyService.getTechnologies(technologyLabel, null, null))
-                .thenReturn(Flux.just(expected));
+        @Test
+        public void shouldGetTechnologiesByLabel() {
+                Technology expected = technologies.get(1);
+                String technologyLabel = expected.getLabel();
+                when(technologyService.getTechnologies(technologyLabel, null, null))
+                                .thenReturn(Flux.just(expected));
 
-        Technology actual = webTestClient.get().uri(endpoint + "?label=" + technologyLabel)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBodyList(Technology.class)
-                .returnResult().getResponseBody().get(0);
+                Technology actual = webTestClient.get().uri(endpoint + "?label=" + technologyLabel)
+                                .exchange()
+                                .expectStatus().isOk()
+                                .expectBodyList(Technology.class)
+                                .returnResult().getResponseBody().get(0);
 
-        assertEquals(actual, expected);
-    }
+                assertEquals(actual, expected);
+        }
 
-    @Test
-    public void shouldGetTechnologiesByQuadrant() {
-        Technology expected = technologies.get(2);
-        Quadrant technologyQuadrant = expected.getQuadrant();
-        when(technologyService.getTechnologies(null, technologyQuadrant.getIndex() , null))
-                .thenReturn(Flux.just(expected));
+        @Test
+        public void shouldGetTechnologiesByQuadrant() {
+                Technology expected = technologies.get(2);
+                Quadrant technologyQuadrant = expected.getQuadrant();
+                when(technologyService.getTechnologies(null, technologyQuadrant.getIndex(), null))
+                                .thenReturn(Flux.just(expected));
 
-        Technology actual = webTestClient.get().uri(endpoint + "?quadrantIndex=" + technologyQuadrant.getIndex())
-                .exchange()
-                .expectStatus().isOk()
-                .expectBodyList(Technology.class)
-                .returnResult().getResponseBody().get(0);
+                Technology actual = webTestClient.get()
+                                .uri(endpoint + "?quadrantIndex=" + technologyQuadrant.getIndex())
+                                .exchange()
+                                .expectStatus().isOk()
+                                .expectBodyList(Technology.class)
+                                .returnResult().getResponseBody().get(0);
 
-        assertEquals(actual, expected);
-    }
+                assertEquals(actual, expected);
+        }
 
-    @Test
-    public void shouldGetTechnologiesByRing() {
-        Technology expected = technologies.get(3);
-        Ring technologyRing = expected.getRing();
-        when(technologyService.getTechnologies(null, null , technologyRing.getIndex()))
-                .thenReturn(Flux.just(expected));
+        @Test
+        public void shouldGetTechnologiesByRing() {
+                Technology expected = technologies.get(3);
+                Ring technologyRing = expected.getRing();
+                when(technologyService.getTechnologies(null, null, technologyRing.getIndex()))
+                                .thenReturn(Flux.just(expected));
 
-        Technology actual = webTestClient.get().uri(endpoint + "?ringIndex=" + technologyRing.getIndex())
-                .exchange()
-                .expectStatus().isOk()
-                .expectBodyList(Technology.class)
-                .returnResult().getResponseBody().get(0);
+                Technology actual = webTestClient.get().uri(endpoint + "?ringIndex=" + technologyRing.getIndex())
+                                .exchange()
+                                .expectStatus().isOk()
+                                .expectBodyList(Technology.class)
+                                .returnResult().getResponseBody().get(0);
 
-        assertEquals(actual, expected);
-    }
+                assertEquals(actual, expected);
+        }
 
-    @Test
-    public void shouldReturnNoContentWithInvalidRequestParams() {
-        String invalidRequestParam = "TEST";
+        @Test
+        public void shouldReturnNoContentWithInvalidRequestParams() {
+                String invalidRequestParam = "TEST";
 
-        when(technologyService.getTechnologies(any(), any() , any()))
-                .thenReturn(Flux.empty());
+                when(technologyService.getTechnologies(any(), any(), any()))
+                                .thenReturn(Flux.empty());
 
-        webTestClient.get().uri(endpoint + "?" + invalidRequestParam + "=")
-                .exchange()
-                .expectBody()
-                .jsonPath("$.size()").isEqualTo(0);
-    }
+                webTestClient.get().uri(endpoint + "?" + invalidRequestParam + "=")
+                                .exchange()
+                                .expectBody()
+                                .jsonPath("$.size()").isEqualTo(0);
+        }
 
-    @Test
-    public void shouldUpdateTechnology() {
-        Technology repositoryTechnology = technologies.get(0);
-        String techToUpdateID = repositoryTechnology.getId();
+        @Test
+        public void shouldUpdateTechnology() {
+                Technology repositoryTechnology = technologies.get(0);
+                String techToUpdateID = repositoryTechnology.getId();
 
-        Technology updateTechnology = new Technology(
-                repositoryTechnology.getLabel(),
-                repositoryTechnology.getRing(),
-                repositoryTechnology.getQuadrant(),
-                repositoryTechnology.getMoved());
+                Technology updateTechnology = new Technology(
+                                repositoryTechnology.getLabel(),
+                                repositoryTechnology.getRing(),
+                                repositoryTechnology.getQuadrant(),
+                                repositoryTechnology.getMoved());
 
-        updateTechnology.setLabel("NEW_LABEL");
-        updateTechnology.setId(techToUpdateID);
+                updateTechnology.setLabel("NEW_LABEL");
+                updateTechnology.setId(techToUpdateID);
 
-        when(technologyService.updateTechnology(eq(techToUpdateID), eq(updateTechnology)))
-                .thenReturn(Mono.just(updateTechnology));
+                when(technologyService.updateTechnology(eq(techToUpdateID), eq(updateTechnology)))
+                                .thenReturn(Mono.just(updateTechnology));
 
-        webTestClient.put().uri(endpoint + "/" + techToUpdateID)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .body(Mono.just(updateTechnology), Technology.class)
-                .exchange()
-                .expectBody(Technology.class).isEqualTo(updateTechnology);
-    }
+                webTestClient.put().uri(endpoint + "/" + techToUpdateID)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .body(Mono.just(updateTechnology), Technology.class)
+                                .exchange()
+                                .expectBody(Technology.class).isEqualTo(updateTechnology);
+        }
 
-    @Test
-    public void shouldCreateNewTechnology() {
-        Ring ring = new Ring(0, "RingTest", "0xFFFFFF");
-        Quadrant quadrant = new Quadrant(0, "QuadrantTest");
-        Technology newTechnology = new Technology("TEST", ring, quadrant, 1);
-        newTechnology.setId("1");
+        @Test
+        public void shouldCreateNewTechnology() {
+                Ring ring = new Ring(0, "RingTest", "0xFFFFFF");
+                Quadrant quadrant = new Quadrant(0, "QuadrantTest");
+                Technology newTechnology = new Technology("TEST", ring, quadrant, 1);
+                newTechnology.setId("1");
 
-        when(technologyService.createTechnology(any())).thenReturn(Mono.just(newTechnology));
+                when(technologyService.createTechnology(any())).thenReturn(Mono.just(newTechnology));
 
-        webTestClient.post()
-                .uri(endpoint)
-                .accept(MediaType.APPLICATION_JSON)
-                .body(Mono.just(newTechnology), Technology.class)
-                .exchange()
-                .expectBody(Technology.class)
-                .isEqualTo(newTechnology);
-    }
+                webTestClient.post()
+                                .uri(endpoint)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .body(Mono.just(newTechnology), Technology.class)
+                                .exchange()
+                                .expectBody(Technology.class)
+                                .isEqualTo(newTechnology);
+        }
 
-    @Test
-    public void shouldDeleteTechnology() {
-        String technologyToDeleteID = technologies.get(0).getId();
-        when(technologyService.deleteTechnology(technologyToDeleteID))
-                .thenReturn(Mono.just("").then());
+        @Test
+        public void shouldDeleteTechnology() {
+                String technologyToDeleteID = technologies.get(0).getId();
+                when(technologyService.deleteTechnology(technologyToDeleteID))
+                                .thenReturn(Mono.just("").then());
 
-        webTestClient
-                .delete()
-                .uri(endpoint + "/" + technologyToDeleteID)
-                .exchange()
-                .expectStatus().isNoContent();
-    }
+                webTestClient
+                                .delete()
+                                .uri(endpoint + "/" + technologyToDeleteID)
+                                .exchange()
+                                .expectStatus().isNoContent();
+        }
 }
