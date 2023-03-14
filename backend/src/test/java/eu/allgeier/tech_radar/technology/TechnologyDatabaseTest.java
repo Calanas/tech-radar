@@ -76,8 +76,8 @@ public class TechnologyDatabaseTest {
 
 	@Test
 	public void writeRead_ShouldHaveAccess() {
+		String resultingId = technologyRepository.save(testTechnology).block().getId();
 		try {
-			String resultingId = technologyRepository.save(testTechnology).block().getId();
 			StepVerifier.create(technologyRepository
 					.findById(resultingId).log())
 					.expectNext(testTechnology)
@@ -89,8 +89,8 @@ public class TechnologyDatabaseTest {
 
 	@Test
 	public void updateTechnology_ShouldUpdateInDatabase() {
+		String resultingId = technologyRepository.save(testTechnology).block().getId();
 		try {
-			String resultingId = technologyRepository.save(testTechnology).block().getId();
 			StepVerifier.create(technologyRepository
 					.findByLabel("TestTechnology").log())
 					.expectNextMatches(t -> t.getLabel().equals("TestTechnology"))
